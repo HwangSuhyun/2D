@@ -32,7 +32,7 @@ class Ball:
         self.image.draw(self.x, self.y)
 
 
-class Big_Ball:
+class BigBall:
     def __init__(self):
         self.x, self.y = random.randint(0,600), 800
         self.image = load_image('dung2.png')
@@ -120,8 +120,8 @@ def enter():
     boy = Boy()
     grass = Grass()
     ball = Ball()
-    big_ball = Big_Ball()
-    big_balls = [Big_Ball() for i in range(10)]
+    big_ball = BigBall()
+    big_balls = [BigBall() for i in range(10)]
     balls = [Ball() for i in range(10)]
     balls = big_balls + balls
 
