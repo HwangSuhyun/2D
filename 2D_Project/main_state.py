@@ -102,18 +102,43 @@ class Boy:
                    self.state = self.LEFT_RUN
                    self.last_state = None
 
-
     def update(self):
         self.frame = (self.frame + 1 ) % 8
         if self.state == self.RIGHT_RUN:
             self.x = min(580,self.x + 5)
         elif self.state == self.LEFT_RUN:
-           self.x = max(20, self.x - 5)
-
-
+            self.x = max(20, self.x - 5)
 
     def draw(self):
         self.image.clip_draw(self.frame * 100, self.state * 100, 100, 100, self.x, self.y)
+
+
+def create_position():
+    position_data_text = '                                              \
+        {                                                           \
+            "Boy" : {"StartState" : "RIGHT_STAND", "x" : 300, "y" : 90} \
+        }                                                           \
+    '
+    player_state_table = {
+        "LEFT_RUN" : Boy.LEFT_RUN,
+        "RIGHT_RUN" : Boy.RIGHT_RUN,
+        "LEFT_STAND" : Boy.LEFT_STAND,
+        "RIGHT_STAND" : Boy.RIGHT_STAND
+    }
+
+    position_data = json.loads(position_data_text)
+
+    position = []
+    for name in position_data:
+        player = Boy()
+        player.name = name
+        player.x = position_data[name]['x']
+        player.y = position_data[name]['y']
+        player.state = player_state_table[position_data[name]['StartState']]
+        position.append(player)
+
+    return position
+
 
 def enter():
     global boy, grass, ball, balls, big_ball, big_balls
