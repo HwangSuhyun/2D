@@ -17,6 +17,10 @@ font = None
 
 
 class Ball:
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
+
     def __init__(self):
         self.x, self.y = random.randint(0,600), 800
         self.image = load_image('dung.png')
@@ -31,8 +35,15 @@ class Ball:
     def draw(self):
         self.image.draw(self.x, self.y)
 
+    def get_bb(self):
+        return self.x -10, self.y -8, self.x +10, self.y +10
+
 
 class BigBall:
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
+
     def __init__(self):
         self.x, self.y = random.randint(0,600), 800
         self.image = load_image('dung2.png')
@@ -47,6 +58,9 @@ class BigBall:
     def draw(self):
         self.image.draw(self.x, self.y)
 
+    def get_bb(self):
+        return self.x -20, self.y -15, self.x +20, self.y +18
+
 class Grass:
     def __init__(self):
         self.image = load_image('grass.png')
@@ -58,6 +72,9 @@ class Grass:
 
 class Boy:
 
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
+
     LEFT_RUN, RIGHT_RUN, LEFT_STAND, RIGHT_STAND = 0, 1, 2, 3
 
     def __init__(self):
@@ -66,6 +83,9 @@ class Boy:
         self.state = self.RIGHT_STAND
 
         self.image = load_image('animation_sheet.png')
+
+    def get_bb(self):
+        return  self.x - 15, self.y -35, self.x + 15, self.y +35
 
     def handle_event(self, event):
        if(event.type, event.key ) == (SDL_KEYDOWN, SDLK_LEFT ):
@@ -112,6 +132,17 @@ class Boy:
     def draw(self):
         self.image.clip_draw(self.frame * 100, self.state * 100, 100, 100, self.x, self.y)
 
+
+def collide(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_b, bottom_b, right_b, top_b = b.get_bb()
+
+    if left_a > right_b : return False
+    if right_a < left_b : return False
+    if top_a < bottom_b : return False
+    if bottom_a > top_b : return False
+
+    return True
 
 def create_position():
     position_data_text = '                                              \
@@ -185,6 +216,10 @@ def update():
     for ball in balls:
         ball.update()
 
+    for ball in balls:
+        if collide(boy, ball):
+           close_canvas()
+
 def draw():
 
     hide_lattice()
@@ -193,6 +228,11 @@ def draw():
     boy.draw()
     for ball in balls:
         ball.draw()
+
+    boy.draw_bb()
+    for ball in balls:
+        ball.draw_bb()
+
     update_canvas()
 
     delay(0.03)
