@@ -18,8 +18,6 @@ font = None
 
 class Ball:
 
-    drop_sound = None
-
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
@@ -28,18 +26,9 @@ class Ball:
         self.image = load_image('dung.png')
         self.speed = random.randint(3,8)
 
-        if Ball.drop_sound == None:
-            Ball.drop_sound = load_wav('pickup.wav')
-            Ball.drop_sound.set_volume(64)
-
-
-    def drop(self):
-        self.drop_sound.play()
-
     def update(self):
         self.y -= self.speed
         if self.y <= 60:
-            ball.drop()
             self.y = 800
             self.speed = random.randint(3,8)
 
@@ -52,8 +41,6 @@ class Ball:
 
 class BigBall:
 
-    drop_sound = None
-
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
@@ -62,18 +49,9 @@ class BigBall:
         self.image = load_image('dung2.png')
         self.speed = random.randint(3,8)
 
-        if BigBall.drop_sound == None:
-            BigBall.drop_sound = load_wav('pickup.wav')
-            BigBall.drop_sound.set_volume(64)
-
-    def drop(self):
-        self.drop_sound.play()
-
-
     def update(self):
         self.y -= self.speed
         if self.y <= 60:
-            big_ball.drop()
             self.y = 800
             self.speed = random.randint(3,8)
 
@@ -86,9 +64,6 @@ class BigBall:
 class Grass:
     def __init__(self):
         self.image = load_image('grass.png')
-        self.bgm = load_music('football.mp3')
-        self.bgm.set_volume(32)
-        self.bgm.repeat_play()
 
     def draw(self):
         self.image.draw(300, 30)
@@ -96,16 +71,6 @@ class Grass:
 
 
 class Boy:
-
-    PIXEL_PER_METER = (10.0 / 0.3)           # 10 pixel 30 cm
-    RUN_SPEED_KMPH = 20.0                    # Km / Hour
-    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
-    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
-    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
-
-    TIME_PER_ACTION = 0.5
-    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
-    FRAMES_PER_ACTION = 8
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
@@ -118,7 +83,6 @@ class Boy:
         self.state = self.RIGHT_STAND
 
         self.image = load_image('animation_sheet.png')
-
 
     def get_bb(self):
         return  self.x - 15, self.y -35, self.x + 15, self.y +35
@@ -254,9 +218,7 @@ def update():
 
     for ball in balls:
         if collide(boy, ball):
-            close_canvas()
-            #balls.remove(ball)
-
+           close_canvas()
 
 def draw():
 
