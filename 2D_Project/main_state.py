@@ -6,6 +6,7 @@ from pico2d import *
 
 import game_framework
 import title_state
+import game_over
 
 
 
@@ -254,7 +255,7 @@ def update():
 
     for ball in balls:
         if collide(boy, ball):
-            close_canvas()
+            game_framework.push_state(game_over)
             #balls.remove(ball)
 
 
