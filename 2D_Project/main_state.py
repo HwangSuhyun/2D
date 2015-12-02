@@ -21,8 +21,8 @@ class Ball:
 
     drop_sound = None
 
-    def draw_bb(self):
-        draw_rectangle(*self.get_bb())
+    #def draw_bb(self):
+        #draw_rectangle(*self.get_bb())
 
     def __init__(self):
         self.x, self.y = random.randint(0,600), 800
@@ -55,8 +55,8 @@ class BigBall:
 
     drop_sound = None
 
-    def draw_bb(self):
-        draw_rectangle(*self.get_bb())
+    #def draw_bb(self):
+        #draw_rectangle(*self.get_bb())
 
     def __init__(self):
         self.x, self.y = random.randint(0,600), 800
@@ -268,9 +268,9 @@ def draw():
     for ball in balls:
         ball.draw()
 
-    boy.draw_bb()
-    for ball in balls:
-        ball.draw_bb()
+    #boy.draw_bb()
+    #for ball in balls:
+        #ball.draw_bb()
 
     update_canvas()
 
