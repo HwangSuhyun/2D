@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "mygame.py", line 14, in <module>
-  File "C:\Users\LG\Documents\GitHub\2D\2D_Project\game_framework.py", line 85, in run
-    start_state.enter()
-  File "C:\Users\LG\Documents\GitHub\2D\2D_Project\start_state.py", line 14, in enter
-    image = load_image('credit.png')
-  File "C:\Users\LG\Documents\GitHub\2D\2D_Project\pico2d.py", line 293, in load_image
-    raise IOError
-OSError
