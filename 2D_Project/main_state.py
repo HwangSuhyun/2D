@@ -8,14 +8,14 @@ import game_framework
 import title_state
 import game_over
 
-
+from UI import UI
 
 name = "MainState"
 
 boy = None
 grass = None
 font = None
-
+ui = None
 
 class Ball:
 
@@ -209,14 +209,16 @@ def create_position():
 
 
 def enter():
-    global boy, grass, ball, balls, big_ball, big_balls
+    global boy, grass, ball, balls, big_ball, big_balls, ui
     boy = Boy()
     grass = Grass()
     ball = Ball()
     big_ball = BigBall()
+    ui = UI()
     big_balls = [BigBall() for i in range(10)]
     balls = [Ball() for i in range(10)]
     balls = big_balls + balls
+
 
 
 def exit():
@@ -248,6 +250,8 @@ def handle_events():
             boy.handle_event(event)
 
 
+
+
 def update():
     boy.update()
     for ball in balls:
@@ -257,6 +261,8 @@ def update():
         if collide(boy, ball):
             game_framework.push_state(game_over)
             #balls.remove(ball)
+
+    ui.update()
 
 
 def draw():
@@ -271,6 +277,8 @@ def draw():
     boy.draw_bb()
     for ball in balls:
         ball.draw_bb()
+
+    ui.draw()
 
     update_canvas()
 
