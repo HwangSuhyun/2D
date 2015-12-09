@@ -21,13 +21,13 @@ class Ball:
 
     drop_sound = None
 
-    #def draw_bb(self):
-        #draw_rectangle(*self.get_bb())
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
     def __init__(self):
         self.x, self.y = random.randint(0,600), 800
         self.image = load_image('dung.png')
-        self.speed = random.randint(8,11)
+        self.speed = random.randint(3,8)
 
         if Ball.drop_sound == None:
             Ball.drop_sound = load_wav('pickup.wav')
@@ -42,7 +42,7 @@ class Ball:
         if self.y <= 60:
             ball.drop()
             self.y = 800
-            self.speed = random.randint(6,10)
+            self.speed = random.randint(3,8)
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -55,13 +55,13 @@ class BigBall:
 
     drop_sound = None
 
-    #def draw_bb(self):
-        #draw_rectangle(*self.get_bb())
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
     def __init__(self):
         self.x, self.y = random.randint(0,600), 800
         self.image = load_image('dung2.png')
-        self.speed = random.randint(5,8)
+        self.speed = random.randint(3,8)
 
         if BigBall.drop_sound == None:
             BigBall.drop_sound = load_wav('pickup.wav')
@@ -108,8 +108,8 @@ class Boy:
     ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
     FRAMES_PER_ACTION = 8
 
-    #def draw_bb(self):
-        #draw_rectangle(*self.get_bb())
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
     LEFT_RUN, RIGHT_RUN, LEFT_STAND, RIGHT_STAND = 0, 1, 2, 3
 
@@ -215,8 +215,8 @@ def enter():
     ball = Ball()
     big_ball = BigBall()
     ui = UI()
-    big_balls = [BigBall() for i in range(12)]
-    balls = [Ball() for i in range(15)]
+    big_balls = [BigBall() for i in range(10)]
+    balls = [Ball() for i in range(10)]
     balls = big_balls + balls
 
 
@@ -274,9 +274,9 @@ def draw():
     for ball in balls:
         ball.draw()
 
-    #boy.draw_bb()
-    #for ball in balls:
-        #ball.draw_bb()
+    boy.draw_bb()
+    for ball in balls:
+        ball.draw_bb()
 
     ui.draw()
 
