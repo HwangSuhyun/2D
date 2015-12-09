@@ -9,7 +9,7 @@ class UI:
 
     def update(self):
         #print(get_time())
-        self.time += 0.05
+        self.time += 0.04
 
     def draw(self):
         print('시간 : %d' % self.time)
