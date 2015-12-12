@@ -10,12 +10,23 @@ image = None
 def enter():
     global image
     image = load_image('title.png')
+    global effect
+    effect = load_wav('over.wav')
+    effect.set_volume(32)
+    effect.play(1)
+
+    global bgm
+    bgm = load_music('bgm.mp3')
+    bgm.set_volume(32)
+    bgm.repeat_play()
+
 
 
 
 def exit():
-    global image
+    global image, effect
     del(image)
+    del(effect)
 
 
 

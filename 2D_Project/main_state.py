@@ -25,9 +25,9 @@ class Ball:
         #draw_rectangle(*self.get_bb())
 
     def __init__(self):
-        self.x, self.y = random.randint(0,600), 800
+        self.x, self.y = random.randint(0,600), random.randint(800,900)
         self.image = load_image('dung.png')
-        self.speed = random.randint(8,11)
+        self.speed = random.randint(5,10)
 
         if Ball.drop_sound == None:
             Ball.drop_sound = load_wav('pickup.wav')
@@ -39,10 +39,28 @@ class Ball:
 
     def update(self):
         self.y -= self.speed
-        if self.y <= 60:
+        if self.y <= 63:
             ball.drop()
-            self.y = 800
-            self.speed = random.randint(6,10)
+            self.x, self.y = random.randint(0,600), random.randint(800,900)
+            self.speed = random.randint(5,10)
+
+        if ui.time >= 5:
+            self.speed = random.randint(7,11)
+
+        if ui.time >= 10:
+            self.speed = random.randint(9,13)
+
+        if ui.time >= 15:
+            self.speed = random.randint(11,15)
+
+        if ui.time >= 20:
+            self.speed = random.randint(13,16)
+
+        if ui.time >= 30:
+            self.speed = random.randint(15,17)
+
+        if ui.time >= 40:
+            self.speed = random.randint(16,18)
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -59,13 +77,15 @@ class BigBall:
         #draw_rectangle(*self.get_bb())
 
     def __init__(self):
-        self.x, self.y = random.randint(0,600), 800
+        self.x, self.y = random.randint(0,600), random.randint(800,900)
         self.image = load_image('dung2.png')
-        self.speed = random.randint(5,8)
+        self.speed = random.randint(5,11)
 
         if BigBall.drop_sound == None:
             BigBall.drop_sound = load_wav('pickup.wav')
             BigBall.drop_sound.set_volume(64)
+
+
 
     def drop(self):
         self.drop_sound.play()
@@ -73,10 +93,28 @@ class BigBall:
 
     def update(self):
         self.y -= self.speed
-        if self.y <= 60:
+        if self.y <= 63:
             big_ball.drop()
-            self.y = 800
-            self.speed = random.randint(3,8)
+            self.x, self.y = random.randint(0,600), random.randint(800,900)
+            self.speed = random.randint(5,11)
+
+        if ui.time >= 5:
+            self.speed = random.randint(8,13)
+
+        if ui.time >= 10:
+            self.speed = random.randint(11,15)
+
+        if ui.time >= 15:
+            self.speed = random.randint(13,16)
+
+        if ui.time >= 20:
+            self.speed = random.randint(14,17)
+
+        if ui.time >= 30:
+            self.speed = random.randint(15,18)
+
+        if ui.time >= 40:
+            self.speed = random.randint(16,19)
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -97,6 +135,7 @@ class Grass:
 
 
 class Boy:
+    step_sound = None
 
     PIXEL_PER_METER = (10.0 / 0.3)           # 10 pixel 30 cm
     RUN_SPEED_KMPH = 20.0                    # Km / Hour
@@ -120,9 +159,16 @@ class Boy:
 
         self.image = load_image('animation_sheet.png')
 
+        if Boy.step_sound == None:
+            Boy.step_sound = load_wav('step.wav')
+            Boy.step_sound.set_volume(16)
+
+
+    def step(self):
+        self.step_sound.play()
 
     def get_bb(self):
-        return  self.x - 15, self.y -35, self.x + 15, self.y +35
+        return  self.x - 13, self.y -25, self.x + 13, self.y +30
 
     def handle_event(self, event):
        if(event.type, event.key ) == (SDL_KEYDOWN, SDLK_LEFT ):
@@ -162,9 +208,11 @@ class Boy:
     def update(self):
         self.frame = (self.frame + 1 ) % 8
         if self.state == self.RIGHT_RUN:
-            self.x = min(580,self.x + 5)
+            self.x = min(580,self.x + 7)
+            boy.step()
         elif self.state == self.LEFT_RUN:
-            self.x = max(20, self.x - 5)
+            self.x = max(20, self.x - 7)
+            boy.step()
 
     def draw(self):
         self.image.clip_draw(self.frame * 100, self.state * 100, 100, 100, self.x, self.y)
@@ -215,18 +263,20 @@ def enter():
     ball = Ball()
     big_ball = BigBall()
     ui = UI()
-    big_balls = [BigBall() for i in range(12)]
-    balls = [Ball() for i in range(15)]
-    balls = big_balls + balls
+
+    big_balls = [BigBall() for i in range(11)]
+    balls = [Ball() for i in range(12)]
+
+    balls = balls + big_balls
 
 
 
 def exit():
-    global boy, grass, ball, big_ball
+    global boy, grass, balls, big_balls
     del(boy)
     del(grass)
-    del(ball)
-    del(big_ball)
+    del(balls)
+    del(big_balls)
 
 
 
@@ -254,13 +304,14 @@ def handle_events():
 
 def update():
     boy.update()
+
+    #for ball in balls:
     for ball in balls:
         ball.update()
 
-    for ball in balls:
         if collide(boy, ball):
             game_framework.push_state(game_over)
-            #balls.remove(ball)
+
 
     ui.update()
 
@@ -273,6 +324,7 @@ def draw():
     boy.draw()
     for ball in balls:
         ball.draw()
+
 
     #boy.draw_bb()
     #for ball in balls:

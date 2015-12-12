@@ -9,7 +9,12 @@ image = None
 
 def enter():
     global image
+    global bgm
     image = load_image('title.png')
+    bgm = load_music('bgm.mp3')
+    bgm.set_volume(32)
+    bgm.repeat_play()
+
 
 
 
