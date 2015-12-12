@@ -5,6 +5,7 @@ import os
 from pico2d import *
 
 import game_framework
+
 import title_state
 import game_over
 
@@ -272,13 +273,7 @@ def enter():
 
 
 def exit():
-    global boy, grass, balls, big_balls
-    del(boy)
-    del(grass)
-    del(balls)
-    del(big_balls)
-
-
+    pass
 
 
 def pause():

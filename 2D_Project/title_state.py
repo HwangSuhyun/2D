@@ -5,7 +5,7 @@ from pico2d import *
 
 name = "TitleState"
 image = None
-
+bgm = None
 
 def enter():
     global image
